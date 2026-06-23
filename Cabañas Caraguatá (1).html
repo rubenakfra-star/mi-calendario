@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabañas Caraguatá – Disponibilidad</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+  :root { --fondo:#f5f0e8; --texto:#2a2218; --agua:#a8c5c0; --libre:#d4ead7; --ocupado:#e03030; --hoy:#a8c5c0; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Inter',sans-serif; background:var(--fondo); color:var(--texto); min-height:100vh; }
+  header { background:var(--texto); color:#f0ece4; padding:2rem 1.5rem 1.5rem; text-align:center; }
+  header h1 { font-family:'Playfair Display',serif; font-size:2rem; margin-bottom:0.3rem; }
+  header p { font-size:0.85rem; color:var(--agua); letter-spacing:0.08em; text-transform:uppercase; }
+  .leyenda { display:flex; gap:1.2rem; justify-content:center; padding:0.8rem; font-size:0.75rem; flex-wrap:wrap; background:white; border-bottom:1px solid #e0d8cc; }
+  .leyenda-item { display:flex; align-items:center; gap:0.4rem; }
+  .dot { width:14px; height:14px; border-radius:3px; }
+  .cabanas-grid { display:grid; grid-template-columns:1fr; }
+  @media (min-width:700px) { .cabanas-grid { grid-template-columns:1fr 1fr; } }
+  .cabana-card { border:1px solid #e0d8cc; background:white; margin:0.8rem; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .cabana-header { padding:0.8rem 1rem; display:flex; align-items:center; gap:0.7rem; border-bottom:1px solid #f0ece4; }
+  .cabana-dot { width:18px; height:18px; border-radius:50%; flex-shrink:0; }
+  .cabana-header h3 { font-family:'Playfair Display',serif; font-size:1.1rem; flex:1; }
+  .cabana-precio { font-size:1rem; font-weight:700; color:var(--texto); white-space:nowrap; }
+  .nav-cabana { display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.8rem; background:#fdfdfd; border-bottom:1px solid #f0ece4; }
+  .nav-cabana button { background:none; border:1.5px solid var(--texto); border-radius:50%; width:30px; height:30px; font-size:0.9rem; cursor:pointer; color:var(--texto); display:flex; align-items:center; justify-content:center; }
+  .nav-cabana h2 { font-family:'Playfair Display',serif; font-size:0.95rem; text-transform:capitalize; }
+  .dias-semana { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-size:0.65rem; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; padding:0.5rem 0.5rem 0.2rem; color:#888; }
+  .calendario-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; padding:0 0.5rem 0.8rem; }
+  .dia { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:0.78rem; border-radius:6px; cursor:pointer; user-select:none; transition:transform 0.1s; }
+  .dia:hover:not(.vacio):not(.pasado) { transform:scale(1.1); }
+  .dia.vacio { cursor:default; }
+  .dia.pasado { opacity:0.3; cursor:default; }
+  .dia.libre { background:var(--libre); color:#2d6e3a; }
+  .dia.ocupado { background:var(--ocupado); color:white; }
+  .dia.hoy { background:var(--hoy); color:#1a4a47; font-weight:700; box-shadow:0 0 0 2px #5a9a94; }
+  .btn-cabana { display:block; margin:0 0.8rem 0.8rem; color:white; border:none; border-radius:8px; padding:0.6rem 1rem; font-size:0.82rem; font-weight:500; cursor:pointer; text-align:center; text-decoration:none; }
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:100; align-items:center; justify-content:center; }
+  .modal-overlay.activo { display:flex; }
+  .modal { background:white; border-radius:16px; padding:2rem; max-width:340px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.18); }
+  .modal h3 { font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:0.5rem; }
+  .modal p { font-size:0.9rem; color:#666; margin-bottom:1.2rem; }
+  .modal-btns { display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; }
+  .modal-btns a { display:inline-block; background:#25D366; color:white; padding:0.7rem 1.4rem; border-radius:8px; text-decoration:none; font-size:0.9rem; font-weight:500; }
+  .modal-btns button { background:#f0ece4; border:none; padding:0.7rem 1.4rem; border-radius:8px; cursor:pointer; font-size:0.9rem; }
+  .admin-zona { text-align:center; padding:0.8rem; }
+  .admin-zona button { background:none; border:1px dashed #bbb; border-radius:6px; padding:0.4rem 1rem; font-size:0.75rem; color:#999; cursor:pointer; }
+  .guardado { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); background:#2a2218; color:white; padding:0.6rem 1.4rem; border-radius:20px; font-size:0.8rem; opacity:0; transition:opacity 0.3s; pointer-events:none; z-index:200; }
+  .guardado.visible { opacity:1; }
+  footer { text-align:center; padding:1.5rem; font-size:0.75rem; color:#aaa; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cabañas Caraguatá</h1>
+  <p>Disponibilidad · Reservá por WhatsApp</p>
+</header>
+<div class="leyenda">
+  <div class="leyenda-item"><div class="dot" style="background:#d4ead7"></div> Disponible</div>
+  <div class="leyenda-item"><div class="dot" style="background:#e03030"></div> Ocupado</div>
+  <div class="leyenda-item"><div class="dot" style="background:#a8c5c0"></div> Hoy</div>
+</div>
+<div class="cabanas-grid" id="cabanas-grid"></div>
+<div class="admin-zona">
+  <button id="btn-admin" onclick="toggleAdmin()">⚙️ Modo administrador</button>
+</div>
+<div class="guardado" id="toast">✅ Guardado</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-titulo"></h3>
+    <p id="modal-texto"></p>
+    <div class="modal-btns">
+      <a id="modal-wa" href="#" target="_blank">📲 Reservar por WhatsApp</a>
+      <button onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+<footer>Tocá una fecha disponible para consultar disponibilidad</footer>
+<script>
+  const WHATSAPP = "541158467707";
+  const PASS = "akfra2020";
+  const KEY = "caraguata_ocupadas";
+  const CABANAS = [
+    { id:"verde",  nombre:"Casa Verde",  color:"#4a7c59", precio:"$60.000/día" },
+    { id:"roja",   nombre:"Casa Roja",   color:"#b5432a", precio:"$60.000/día" },
+    { id:"blanca", nombre:"Casa Blanca", color:"#b0a898", precio:"$65.000/día" },
+    { id:"marron", nombre:"Casa Marrón", color:"#7a5c3a", precio:"$65.000/día" }
+  ];
+  let ocupadas;
+  try { ocupadas = JSON.parse(localStorage.getItem(KEY)) || {verde:[],roja:[],blanca:[],marron:[]}; }
+  catch(e) { ocupadas = {verde:[],roja:[],blanca:[],marron:[]}; }
+  const hoy = new Date();
+  let meses = { verde:new Date(hoy.getFullYear(),hoy.getMonth(),1), roja:new Date(hoy.getFullYear(),hoy.getMonth(),1), blanca:new Date(hoy.getFullYear(),hoy.getMonth(),1), marron:new Date(hoy.getFullYear(),hoy.getMonth(),1) };
+  let admin = new URLSearchParams(location.search).get('admin') === PASS;
+
+  function clave(f) { return f.getFullYear()+'-'+String(f.getMonth()+1).padStart(2,'0')+'-'+String(f.getDate()).padStart(2,'0'); }
+  function guardar() {
+    try { localStorage.setItem(KEY, JSON.stringify(ocupadas)); } catch(e) {}
+    const t = document.getElementById('toast');
+    t.classList.add('visible');
+    setTimeout(() => t.classList.remove('visible'), 1800);
+  }
+  function toggleAdmin() {
+    if (!admin) { const p=prompt("Contraseña:"); if(p!==PASS){alert("Incorrecta.");return;} }
+    admin = !admin;
+    document.getElementById('btn-admin').textContent = admin ? "✅ Admin activo" : "⚙️ Modo administrador";
+    renderizar();
+  }
+  function cambiarMesCabana(id, d) {
+    meses[id] = new Date(meses[id].getFullYear(), meses[id].getMonth()+d, 1);
+    renderizarCabana(id);
+  }
+  function renderizarCabana(cabId) {
+    const cab = CABANAS.find(c => c.id === cabId);
+    const mes = meses[cabId];
+    const a = mes.getFullYear(), m = mes.getMonth();
+    const tituloEl = document.getElementById('titulo-'+cabId);
+    if (tituloEl) tituloEl.textContent = mes.toLocaleDateString('es-AR',{month:'long',year:'numeric'});
+    const cal = document.getElementById('cal-'+cabId);
+    if (!cal) return;
+    cal.innerHTML = '';
+    const ini = new Date(a,m,1).getDay();
+    const tot = new Date(a,m+1,0).getDate();
+    for(let i=0;i<ini;i++){const v=document.createElement('div');v.className='dia vacio';cal.appendChild(v);}
+    for(let d=1;d<=tot;d++){
+      const f=new Date(a,m,d), k=clave(f);
+      const esHoy=k===clave(hoy), esPas=f<new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate()), esOc=(ocupadas[cabId]||[]).includes(k);
+      const div=document.createElement('div');
+      div.className='dia'+(esHoy?' hoy':esPas?' pasado':esOc?' ocupado':' libre');
+      div.textContent=d;
+      if(!esPas) div.onclick=()=>{
+        if(admin){
+          if(esOc) ocupadas[cabId]=ocupadas[cabId].filter(x=>x!==k);
+          else { ocupadas[cabId]=ocupadas[cabId]||[]; ocupadas[cabId].push(k); }
+          guardar(); renderizarCabana(cabId);
+        } else { abrirModal(cab,f,esOc); }
+      };
+      cal.appendChild(div);
+    }
+  }
+  function renderizar() {
+    const grid = document.getElementById('cabanas-grid');
+    grid.innerHTML = '';
+    CABANAS.forEach(cab => {
+      const card = document.createElement('div');
+      card.className = 'cabana-card';
+      card.innerHTML = `
+        <div class="cabana-header">
+          <div class="cabana-dot" style="background:${cab.color}"></div>
+          <h3>${cab.nombre}</h3>
+          <span class="cabana-precio">${cab.precio}</span>
+        </div>
+        <div class="nav-cabana">
+          <button onclick="cambiarMesCabana('${cab.id}',-1)">&#8592;</button>
+          <h2 id="titulo-${cab.id}"></h2>
+          <button onclick="cambiarMesCabana('${cab.id}',1)">&#8594;</button>
+        </div>
+        <div class="dias-semana"><span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span></div>
+        <div class="calendario-grid" id="cal-${cab.id}"></div>
+        <a class="btn-cabana" style="background:${cab.color}" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola! Quiero consultar disponibilidad para '+cab.nombre)}" target="_blank">📲 Consultar ${cab.nombre}</a>
+      `;
+      grid.appendChild(card);
+      renderizarCabana(cab.id);
+    });
+    document.getElementById('btn-admin').textContent = admin ? "✅ Admin activo" : "⚙️ Modo administrador";
+  }
+  function abrirModal(cab,fecha,oc){
+    const fs=fecha.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('modal-titulo').textContent=cab.nombre;
+    document.getElementById('modal-texto').textContent=oc?`El ${fs} ya está reservado.`:`¡${fs} está disponible!`;
+    document.getElementById('modal-wa').href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(oc?'Hola! Quiero consultar disponibilidad para '+cab.nombre+' cerca del '+fs:'Hola! Quiero reservar '+cab.nombre+' el '+fs+'.')}`;
+    document.getElementById('modal').classList.add('activo');
+  }
+  function cerrarModal(){document.getElementById('modal').classList.remove('activo');}
+  document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)cerrarModal();});
+  renderizar();
+</script>
+</body>
+</html>
