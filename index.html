@@ -109,9 +109,9 @@
 
   const CABANAS = [
     { id:"verde",  nombre:"Casa Verde",  color:"#4a7c59", precio:60000, precioStr:"$60.000/dia" },
-    { id:"roja",   nombre:"Casa Roja",   color:"#b5432a", precio:60000, precioStr:"$60.000/dia" },
+    { id:"roja",   nombre:"Casa Roja",   color:"#b5432a", precio:90000, precioStr:"$90.000/dia" },
     { id:"blanca", nombre:"Casa Blanca", color:"#b0a898", precio:65000, precioStr:"$65.000/dia" },
-    { id:"marron", nombre:"Casa Marron", color:"#7a5c3a", precio:65000, precioStr:"$65.000/dia" }
+    { id:"marron", nombre:"Casa Marron", color:"#7a5c3a", precio:100000, precioStr:"$100.000/dia" }
   ];
 
   let ocupadas, reservas;
@@ -184,11 +184,11 @@
   function renderRegistro(){
     const body=document.getElementById('registro-body');
     if(!reservas.length){ body.innerHTML='<div class="registro-vacio">No hay reservas registradas</div>'; return; }
-    let html='<table class="registro-tabla"><thead><tr><th>Cabana</th><th>Entrada</th><th>Salida</th><th>Dias</th><th>Total</th><th>Seña</th><th>Saldo</th><th>Tel</th><th>Notas</th><th></th></tr></thead><tbody>';
+    let html='<table class="registro-tabla"><thead><tr><th>Cabana</th><th>F.Reserva</th><th>Entrada</th><th>Salida</th><th>Dias</th><th>Total</th><th>Seña</th><th>Saldo</th><th>Tel</th><th>Notas</th><th></th></tr></thead><tbody>';
     reservas.forEach(r=>{
       const saldoOk=r.saldo<=0;
       html+=`<tr>
-        <td>${r.cabana}</td><td>${r.entrada}</td><td>${r.salida}</td><td>${r.dias}</td>
+        <td>${r.cabana}</td><td>${r.fecha_registro?r.fecha_registro.split("-").reverse().join("-"):"-"}</td><td>${r.entrada.split("-").reverse().join("-")}</td><td>${r.salida.split("-").reverse().join("-")}</td><td>${r.dias}</td>
         <td>${formatPrecio(r.total)}</td>
         <td>${formatPrecio(r.senia||0)}</td>
         <td><span class="badge-saldo ${saldoOk?'badge-ok':'badge-pendiente'}">${formatPrecio(r.saldo)}</span></td>
@@ -200,15 +200,15 @@
     const totalG=reservas.reduce((s,r)=>s+r.total,0);
     const seniaG=reservas.reduce((s,r)=>s+(r.senia||0),0);
     const saldoG=reservas.reduce((s,r)=>s+r.saldo,0);
-    html+=`<tr style="background:#f5f0e8;font-weight:700"><td colspan="4">TOTAL</td><td>${formatPrecio(totalG)}</td><td>${formatPrecio(seniaG)}</td><td>${formatPrecio(saldoG)}</td><td colspan="3"></td></tr>`;
+    html+=`<tr style="background:#f5f0e8;font-weight:700"><td colspan="5">TOTAL</td><td>${formatPrecio(totalG)}</td><td>${formatPrecio(seniaG)}</td><td>${formatPrecio(saldoG)}</td><td colspan="3"></td></tr>`;
     html+='</tbody></table>';
     body.innerHTML=html;
   }
 
   function exportarExcel(){
     if(!reservas.length){ alert("No hay reservas para exportar."); return; }
-    let csv="Cabana,Entrada,Salida,Dias,Total,Senia,Saldo,Telefono,Notas\n";
-    reservas.forEach(r=>{ csv+=`${r.cabana},${r.entrada},${r.salida},${r.dias},${r.total},${r.senia||0},${r.saldo},${r.tel||''},${(r.notas||'').replace(/,/g,' ')}\n`; });
+    let csv="Cabana,F.Reserva,Entrada,Salida,Dias,Total,Senia,Saldo,Telefono,Notas\n";
+    reservas.forEach(r=>{ csv+=`${r.cabana},${r.fecha_registro||""},${r.entrada.split("-").reverse().join("-")},${r.salida.split("-").reverse().join("-")},${r.dias},${r.total},${r.senia||0},${r.saldo},${r.tel||''},${(r.notas||'').replace(/,/g,' ')}\n`; });
     const totalG=reservas.reduce((s,r)=>s+r.total,0);
     csv+=`\nTOTAL,,,, ${totalG}\n`;
     const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
@@ -242,11 +242,11 @@
       else cls+=' libre';
       div.className=cls; div.textContent=d;
       if(!esPas) div.onclick=()=>{
-        if(admin&&esOc){
-          if(confirm("Quitar este dia como ocupado?")){ ocupadas[cabId]=ocupadas[cabId].filter(x=>x!==k); guardarOcupadas(); renderizarCabana(cabId); }
-          return;
-        }
-        if(!esOc){
+        if(admin&&!sel.entrada&&!sel.salida){
+          if(esOc) ocupadas[cabId]=ocupadas[cabId].filter(x=>x!==k);
+          else{ ocupadas[cabId]=ocupadas[cabId]||[]; ocupadas[cabId].push(k); }
+          guardarOcupadas(); renderizarCabana(cabId);
+        } else if(!esOc){
           if(!sel.entrada){sel.entrada=f;sel.salida=null;}
           else if(!sel.salida){
             if(clave(f)===clave(sel.entrada)){sel.salida=f;}
@@ -281,11 +281,9 @@
         <div class="linea"><span>Dias:</span><span>${dias}</span></div>
         <div class="linea total"><span>Total estimado:</span><span>${formatPrecio(total)}</span></div>
         <button class="reset" onclick="resetSeleccion('${cabId}')">Limpiar seleccion</button>
-        ${admin?`<button class="reset" style="color:#e03030;margin-top:0.3rem" onclick="marcarOcupado('${cabId}')">Marcar dias como ocupados</button>`:''}
       `;
       if(btnWa){
-        const nombreMensaje = cab.id==='verde'?'Casa Ver de':cab.id==='roja'?'Casa Ro ja':cab.id==='blanca'?'Casa Blan ca':'Casa Ma rron';
-        const msg=`Hola! Quiero consultar disponibilidad para ${nombreMensaje}.\nEntrada: ${formatFecha(sel.entrada)} (desde las ${HORA_ENTRADA})\nSalida: ${formatFecha(sel.salida)} (hasta las ${HORA_SALIDA})\nDias: ${dias}\nTotal estimado: ${formatPrecio(total)}\n\nVer calendario: ${CAL_URL}`;
+        const msg=`Hola! Quiero consultar disponibilidad para ${cab.nombre}.\nEntrada: ${formatFecha(sel.entrada)} (desde las ${HORA_ENTRADA})\nSalida: ${formatFecha(sel.salida)} (hasta las ${HORA_SALIDA})\nDias: ${dias}\nTotal estimado: ${formatPrecio(total)}\n\nVer calendario: ${CAL_URL}`;
         btnWa.href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
         btnWa.style.display='block';
       }
@@ -303,18 +301,6 @@
       if(btnGuardar) btnGuardar.style.display='none';
       if(formRes) formRes.style.display='none';
     }
-  }
-
-  function marcarOcupado(cabId){
-    const sel=seleccion[cabId];
-    if(!sel.entrada||!sel.salida) return;
-    let d=new Date(sel.entrada);
-    while(d<=sel.salida){
-      const k=clave(d);
-      if(!(ocupadas[cabId]||[]).includes(k)){ ocupadas[cabId]=ocupadas[cabId]||[]; ocupadas[cabId].push(k); }
-      d=new Date(d.getTime()+86400000);
-    }
-    guardarOcupadas(); resetSeleccion(cabId);
   }
 
   function resetSeleccion(cabId){
