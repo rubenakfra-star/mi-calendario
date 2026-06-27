@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabañas Caraguatá - Información</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --verde: #2d6a4f;
+    --verde-claro: #e8f5ee;
+    --agua: #52b788;
+    --arena: #f8f4ed;
+    --texto: #1a1a1a;
+    --gris: #666;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--arena);
+    color: var(--texto);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--verde);
+    color: white;
+    text-align: center;
+    padding: 36px 20px 28px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-bottom: 18px;
+  }
+  .btn-wsp {
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: transform 0.15s;
+  }
+  .btn-wsp:hover { transform: scale(1.04); }
+
+  /* ÍNDICE */
+  .indice {
+    background: white;
+    padding: 24px 20px;
+    border-bottom: 2px solid var(--verde-claro);
+  }
+  .indice h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--verde);
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .indice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .indice-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--verde-claro);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--verde);
+    font-weight: 500;
+    font-size: 0.88rem;
+    transition: background 0.15s;
+  }
+  .indice-link:hover { background: #c8e6d8; }
+  .indice-link .ico { font-size: 1.2rem; }
+
+  /* SECCIONES */
+  .seccion {
+    padding: 28px 20px;
+    border-bottom: 1px solid #e0dbd0;
+  }
+  .seccion:nth-child(even) { background: white; }
+
+  .seccion-titulo {
+    font-family: 'Playfair Display', serif;
+    color: var(--verde);
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* CASAS */
+  .casas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .casa-card {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  .casa-header {
+    padding: 14px;
+    text-align: center;
+    color: white;
+  }
+  .casa-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+  }
+  .casa-header .personas {
+    font-size: 0.8rem;
+    opacity: 0.9;
+  }
+  .casa-verde .casa-header { background: #2d8653; }
+  .casa-roja .casa-header { background: #c0392b; }
+  .casa-blanca .casa-header { background: #555; }
+  .casa-marron .casa-header { background: #7d5229; }
+
+  .casa-body {
+    background: white;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .precio {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--verde);
+    margin-bottom: 4px;
+  }
+  .minimo {
+    font-size: 0.75rem;
+    color: white;
+    background: #e74c3c;
+    border-radius: 20px;
+    padding: 2px 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .btn-fotos {
+    display: block;
+    background: var(--verde);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    transition: background 0.15s;
+  }
+  .btn-fotos:hover { background: #1a5236; }
+  .btn-calendario {
+    display: block;
+    background: var(--agua);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .btn-calendario:hover { background: #3a9a6e; }
+
+  /* INFO GENERAL */
+  .info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--agua);
+  }
+  .info-card h4 {
+    font-weight: 600;
+    color: var(--verde);
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .info-card p, .info-card li {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 4px;
+  }
+  .info-card ul { padding-left: 18px; }
+  .info-card a { color: var(--verde); }
+
+  .alerta {
+    background: #fff3cd;
+    border-left: 4px solid #f0a500;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+    color: #7a5000;
+  }
+  .alerta strong { display: block; margin-bottom: 4px; }
+
+  /* HORARIOS LANCHAS */
+  .horario-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0ebe2;
+    font-size: 0.9rem;
+  }
+  .horario-row:last-child { border-bottom: none; }
+  .horario-label { font-weight: 600; color: var(--verde); }
+
+  /* CARACTERÍSTICAS */
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #444;
+  }
+  .feature-item .ico { font-size: 1.1rem; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--verde);
+    color: white;
+    text-align: center;
+    padding: 28px 20px;
+  }
+  .footer p { font-size: 0.88rem; opacity: 0.8; margin-top: 8px; }
+  .footer .redes { margin-top: 14px; font-size: 0.85rem; opacity: 0.75; }
+
+  .volver-top {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    color: var(--verde);
+    font-size: 0.82rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header" id="inicio">
+  <h1>🌿 Cabañas Caraguatá</h1>
+  <p>Delta del Tigre · 4 cabañas completamente equipadas</p>
+  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1" class="btn-wsp">📲 Consultar por WhatsApp</a>
+</div>
+
+<!-- ÍNDICE -->
+<div class="indice">
+  <h2>¿Qué querés saber?</h2>
+  <div class="indice-grid">
+    <a href="#casas" class="indice-link"><span class="ico">🏠</span> Las casas</a>
+    <a href="#llegar" class="indice-link"><span class="ico">🗺️</span> Cómo llegar</a>
+    <a href="#horarios" class="indice-link"><span class="ico">🕐</span> Horarios</a>
+    <a href="#llevar" class="indice-link"><span class="ico">🎒</span> Qué llevar</a>
+    <a href="#senar" class="indice-link"><span class="ico">💰</span> Cómo señar</a>
+    <a href="#almacen" class="indice-link"><span class="ico">🛒</span> Lancha almacén</a>
+    <a href="#kayaks" class="indice-link"><span class="ico">🚣</span> Kayaks</a>
+    <a href="#mascotas" class="indice-link"><span class="ico">🐾</span> Mascotas</a>
+    <a href="#wifi" class="indice-link"><span class="ico">📶</span> Wifi y cable</a>
+    <a href="#extras" class="indice-link"><span class="ico">✨</span> Lo que hay</a>
+  </div>
+</div>
+
+<!-- CASAS -->
+<div class="seccion" id="casas">
+  <div class="seccion-titulo">🏠 Las casas</div>
+  <div class="casas-grid">
+
+    <div class="casa-card casa-verde">
+      <div class="casa-header">
+        <h3>Casa Verde</h3>
+        <div class="personas">Hasta 4 personas</div>
+      </div>
+      <div class="casa-body">
+        <div class="precio">$60.000/día</div>
+        <div class="minimo">Mínimo 2 días</div>
+        <a href="https://youtube.com/shorts/efFyyJ1_Byo" class="btn-fotos" target="_blank">📸 Ver fotos</a>
+        <a href="https://cabanas-caraguata.github.io/mi-calendario/" class="btn-calendario" target="_blank">📅 Fechas disponibles</a>
+      </div>
+    </div>
+
+    <div class="casa-card casa-roja">
+      <div class="casa-header">
+        <h3>Casa Roja</h3>
+        <div class="personas">Hasta 8 personas</div>
+      </div>
+      <div class="casa-body">
+        <div class="precio">$90.000/día</div>
+        <div class="minimo">Mínimo 2 días</div>
+        <a href="https://youtube.com/shorts/wVFyko1i9Rs" class="btn-fotos" target="_blank">📸 Ver fotos</a>
+        <a href="https://cabanas-caraguata.github.io/mi-calendario/" class="btn-calendario" target="_blank">📅 Fechas disponibles</a>
+      </div>
+    </div>
+
+    <div class="casa-card casa-blanca">
+      <div class="casa-header">
+        <h3>Casa Blanca</h3>
+        <div class="personas">Hasta 4 personas</div>
+      </div>
+      <div class="casa-body">
+        <div class="precio">$65.000/día</div>
+        <div class="minimo">Mínimo 2 días</div>
+        <a href="https://youtube.com/shorts/7Z-oP_gHhSQ" class="btn-fotos" target="_blank">📸 Ver fotos</a>
+        <a href="https://cabanas-caraguata.github.io/mi-calendario/" class="btn-calendario" target="_blank">📅 Fechas disponibles</a>
+      </div>
+    </div>
+
+    <div class="casa-card casa-marron">
+      <div class="casa-header">
+        <h3>Casa Marrón</h3>
+        <div class="personas">Hasta 8 personas</div>
+      </div>
+      <div class="casa-body">
+        <div class="precio">$100.000/día</div>
+        <div class="minimo">Mínimo 2 días</div>
+        <a href="https://youtube.com/shorts/qXAL2El6i5A" class="btn-fotos" target="_blank">📸 Ver fotos</a>
+        <a href="https://cabanas-caraguata.github.io/mi-calendario/" class="btn-calendario" target="_blank">📅 Fechas disponibles</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="seccion-titulo" style="font-size:1.1rem; margin-bottom:10px;">✨ Todas las casas tienen</div>
+    <div class="features">
+      <div class="feature-item"><span class="ico">🏖️</span> Playita propia</div>
+      <div class="feature-item"><span class="ico">🔥</span> Parrilla privada</div>
+      <div class="feature-item"><span class="ico">🌿</span> Parque con naturaleza</div>
+      <div class="feature-item"><span class="ico">🎣</span> Muelle de pesca</div>
+      <div class="feature-item"><span class="ico">🛋️</span> Completamente equipadas</div>
+      <div class="feature-item"><span class="ico">🌳</span> Hamacas</div>
+      <div class="feature-item"><span class="ico">🚣</span> Alquiler de kayaks</div>
+      <div class="feature-item"><span class="ico">📶</span> Wifi Starlink</div>
+    </div>
+  </div>
+</div>
+
+<!-- CÓMO LLEGAR -->
+<div class="seccion" id="llegar">
+  <div class="seccion-titulo">🗺️ Cómo llegar</div>
+
+  <div class="info-card">
+    <h4>🚢 Lancha colectiva (opción más común)</h4>
+    <p><strong>Estación fluvial Tigre</strong> — frente a la estación del tren</p>
+    <p>Líneas Delta · <a href="https://maps.app.goo.gl/MTXeFxTg4C2GZMPt9" target="_blank">📍 Ver en mapa</a></p>
+    <p>Tel: 47311236 / 47490537</p>
+    <p>Sacás boleto ida y vuelta en el momento. ¡Llegá con tiempo!</p>
+    <p style="margin-top:8px;"><strong>Rampa 3</strong> — solo las que van por Caraguatá</p>
+    <p>Bajás en <strong>Caraguatá 128</strong> y pedís que te avisen</p>
+    <p>Duración: ~30 minutos · Valor: $10.000 por persona (ida y vuelta)</p>
+    <p style="margin-top:6px;font-size:0.82rem;color:#888;">En la estación hay muchas opciones para dejar el auto</p>
+  </div>
+
+  <div class="info-card">
+    <h4>🚤 Otra opción: Puerto Benavides</h4>
+    <p>Podés llegar hasta la <strong>Guardería Puerto Benavides</strong> y dejar el auto adentro ($2.000/día)</p>
+    <p><a href="https://g.co/kgs/PYzrUHP" target="_blank">📍 Ver ubicación</a></p>
+    <p style="margin-top:6px;">Previamente tenés que arreglar con el remisero Ricardo para que te pase a buscar:</p>
+    <p><strong>Ricardo</strong> · <a href="tel:+541149806752">+54 9 11 4980-6752</a></p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- HORARIOS -->
+<div class="seccion" id="horarios">
+  <div class="seccion-titulo">🕐 Horarios de entrada y salida</div>
+  <div class="info-card">
+    <p>Podés entrar desde la <strong>primera lancha</strong> y salir con la última o en el horario que elijas.</p>
+  </div>
+
+  <div class="info-card">
+    <h4>🟢 Salidas desde Tigre</h4>
+    <div class="horario-row"><span class="horario-label">07:30</span><span>Primera lancha</span></div>
+    <div class="horario-row"><span class="horario-label">10:30</span><span></span></div>
+    <div class="horario-row"><span class="horario-label">15:30</span><span></span></div>
+    <div class="horario-row"><span class="horario-label">18:30</span><span>Última lancha</span></div>
+  </div>
+
+  <div class="info-card">
+    <h4>🔴 Lanchas de regreso</h4>
+    <div class="horario-row"><span class="horario-label">06:30</span><span></span></div>
+    <div class="horario-row"><span class="horario-label">09:30</span><span></span></div>
+    <div class="horario-row"><span class="horario-label">14:30</span><span></span></div>
+    <div class="horario-row"><span class="horario-label">18:30</span><span>Última lancha</span></div>
+  </div>
+  <div class="alerta">
+    <strong>⚠️ Atención</strong>
+    Hay que estar atento en el muelle un rato antes por las dudas.
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- QUÉ LLEVAR -->
+<div class="seccion" id="llevar">
+  <div class="seccion-titulo">🎒 ¿Qué llevar?</div>
+  <div class="alerta">
+    <strong>⚠️ Importante</strong>
+    Hacete una lista y llevá todo. Allá no hay nada. Solo hay un remis que te lleva al almacén pero es muy caro.
+  </div>
+  <div class="info-card">
+    <h4>Imprescindible</h4>
+    <ul>
+      <li><strong>Sábanas y toallas</strong></li>
+      <li>Agua potable</li>
+      <li>Off / repelente</li>
+      <li>Velas, linterna o luz de emergencia</li>
+      <li>Artículos de limpieza</li>
+      <li>Artículos de higiene personal</li>
+      <li>Comida, carbón y encendedor</li>
+    </ul>
+  </div>
+  <div class="info-card">
+    <h4>🛒 Lancha almacén "La Nélida"</h4>
+    <p>Si necesitás comprar algo, pasa la lancha almacén:</p>
+    <p><strong>WhatsApp:</strong> <a href="https://wa.me/541135644466">1135644466</a></p>
+    <p>Lunes, miércoles, viernes y sábados por la mañana (9:30 a 11hs)</p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- CÓMO SEÑAR -->
+<div class="seccion" id="senar">
+  <div class="seccion-titulo">💰 ¿Cómo señar?</div>
+  <div class="info-card">
+    <h4>Reserva</h4>
+    <p>Se reserva con el <strong>50%</strong> y el resto al llegar a la casa.</p>
+    <p style="margin-top:8px;">Podés pagar por:</p>
+    <ul>
+      <li>Mercado Pago</li>
+      <li>Transferencia bancaria</li>
+      <li>Pago Fácil con link de pago</li>
+    </ul>
+  </div>
+  <div class="alerta">
+    <strong>❌ No se reserva sin seña</strong>
+    La seña no tiene devolución ni cambio de fecha por mal clima, falta de luz o agua por motivos ajenos a nuestras cabañas.
+  </div>
+  <div class="alerta" style="background:#fde8e8; border-color:#c0392b; color:#7a1a1a;">
+    <strong>⚠️ No contamos con generador</strong>
+    Ante cortes de luz la cabaña queda sin electricidad.
+  </div>
+  <div class="info-card">
+    <h4>🔒 Antes de reservar</h4>
+    <p>Controlá en Facebook, Instagram y Google desde cuándo publicamos, cantidad de amigos, etc. <strong>Hay mucha estafa y usan fotos truchas.</strong></p>
+    <p style="margin-top:8px;">📲 Reservas únicamente por WhatsApp al único teléfono de Rubén: <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1"><strong>11 5846 7707</strong></a></p>
+    <p style="margin-top:6px;font-size:0.85rem;">Si tenés dudas podés pedirme una videollamada 📱</p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- LANCHA ALMACÉN -->
+<div class="seccion" id="almacen">
+  <div class="seccion-titulo">🛒 Lancha almacén</div>
+  <div class="alerta">
+    <strong>⚠️ No hay almacenes en la zona</strong>
+    Hacete una lista y llevá todo. Solo hay un remis que te lleva a comprar pero es muy caro.
+  </div>
+  <div class="info-card">
+    <h4>🚢 La Nélida</h4>
+    <p>Lunes, miércoles, viernes y sábados por la mañana</p>
+    <p><a href="https://wa.me/541135644466">WhatsApp: 1135644466</a></p>
+  </div>
+  <div class="info-card">
+    <h4>🚢 La Esperanza</h4>
+    <p>Martes, jueves y sábados por la tarde</p>
+  </div>
+  <div class="info-card">
+    <h4>🚗 Remis para ir a comprar</h4>
+    <p>Ricardo · <a href="tel:+541149806752">+54 9 11 4980-6752</a></p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- KAYAKS -->
+<div class="seccion" id="kayaks">
+  <div class="seccion-titulo">🚣 Alquiler de kayaks</div>
+  <div class="info-card">
+    <h4>Medio día</h4>
+    <p>De 8 a 13hs o de 13 a 18hs</p>
+    <p class="precio" style="font-size:1.3rem; margin-top:6px;">$10.000</p>
+  </div>
+  <div class="info-card">
+    <h4>Día completo</h4>
+    <p class="precio" style="font-size:1.3rem; margin-top:2px;">$20.000</p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- MASCOTAS -->
+<div class="seccion" id="mascotas">
+  <div class="seccion-titulo">🐾 Mascotas</div>
+  <div class="info-card">
+    <p>¡Aceptamos mascotas! Se cobra un recargo de <strong>$10.000 por toda la estadía</strong>.</p>
+  </div>
+  <div class="alerta">
+    <strong>🚢 Para viajar en lancha colectiva</strong>
+    Los pasajeros deben ir en un canil o bolso. Nunca sueltas ya que no te van a dejar subir.
+  </div>
+  <div class="info-card">
+    <h4>🚤 Alternativa: lancha-taxi</h4>
+    <p>Podés ir en lancha-taxi, coordinando previamente con un remisero:</p>
+    <p style="margin-top:6px;"><strong>Ricardo</strong> · <a href="tel:+541149806752">+54 9 11 4980-6752</a></p>
+    <p><strong>Casiel</strong> · <a href="tel:+541157024581">+54 9 11 5702-4581</a></p>
+    <p><strong>Franco</strong> · <a href="tel:+541168689348">+54 9 11 6868-9348</a></p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- WIFI -->
+<div class="seccion" id="wifi">
+  <div class="seccion-titulo">📶 Wifi y cable</div>
+  <div class="info-card">
+    <h4>🛰️ Wifi Starlink</h4>
+    <p><strong>Red: Starlink · Sin clave</strong></p>
+  </div>
+  <div class="info-card">
+    <h4>📺 Televisión por cable</h4>
+    <p>Si te interesa, avisame y lo cargo cuando llegás.</p>
+    <p style="margin-top:6px;"><strong>Valor:</strong> $5.000 por día · Mínimo $10.000</p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- EXTRAS -->
+<div class="seccion" id="extras">
+  <div class="seccion-titulo">✨ Lo que hay en las cabañas</div>
+  <div class="features" style="gap:12px;">
+    <div class="feature-item"><span class="ico">🏖️</span> Playita</div>
+    <div class="feature-item"><span class="ico">🔥</span> Parrilla privada</div>
+    <div class="feature-item"><span class="ico">🌿</span> Parque natural</div>
+    <div class="feature-item"><span class="ico">🎣</span> Muelle de pesca</div>
+    <div class="feature-item"><span class="ico">🌳</span> Hamacas</div>
+    <div class="feature-item"><span class="ico">🚣</span> Kayaks</div>
+    <div class="feature-item"><span class="ico">📶</span> Wifi Starlink</div>
+    <div class="feature-item"><span class="ico">🐶</span> Pet friendly</div>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1" class="btn-wsp">📲 Reservar por WhatsApp</a>
+  <p>Único teléfono: 11 5846 7707 · Rubén</p>
+  <div class="redes">
+    📸 @cabanascaraguata &nbsp;·&nbsp; 👍 Caraguatá Cabañas &nbsp;·&nbsp; 🎵 @cabanascaraguata
+  </div>
+</div>
+
+</body>
+</html>
