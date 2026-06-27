@@ -26,7 +26,6 @@
     line-height: 1.6;
   }
 
-  /* HEADER */
   .header {
     background: var(--verde);
     color: white;
@@ -57,7 +56,6 @@
   }
   .btn-wsp:hover { transform: scale(1.04); }
 
-  /* ÍNDICE */
   .indice {
     background: white;
     padding: 24px 20px;
@@ -91,7 +89,6 @@
   .indice-link:hover { background: #c8e6d8; }
   .indice-link .ico { font-size: 1.2rem; }
 
-  /* SECCIONES */
   .seccion {
     padding: 28px 20px;
     border-bottom: 1px solid #e0dbd0;
@@ -108,7 +105,6 @@
     gap: 10px;
   }
 
-  /* CASAS */
   .casas-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -184,7 +180,6 @@
   }
   .btn-calendario:hover { background: #3a9a6e; }
 
-  /* INFO GENERAL */
   .info-card {
     background: white;
     border-radius: 12px;
@@ -217,7 +212,6 @@
   }
   .alerta strong { display: block; margin-bottom: 4px; }
 
-  /* HORARIOS LANCHAS */
   .horario-row {
     display: flex;
     justify-content: space-between;
@@ -228,7 +222,6 @@
   .horario-row:last-child { border-bottom: none; }
   .horario-label { font-weight: 600; color: var(--verde); }
 
-  /* CARACTERÍSTICAS */
   .features {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -243,7 +236,6 @@
   }
   .feature-item .ico { font-size: 1.1rem; }
 
-  /* FOOTER */
   .footer {
     background: var(--verde);
     color: white;
@@ -262,22 +254,40 @@
     text-decoration: none;
     font-weight: 500;
   }
+
+  .llevar-destacado {
+    background: #fff3cd;
+    border: 2px solid #f0a500;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .llevar-destacado h4 {
+    color: #7a5000;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .llevar-destacado li {
+    font-size: 0.9rem;
+    color: #5a3a00;
+    margin-bottom: 6px;
+  }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header" id="inicio">
   <h1>🌿 Cabañas Caraguatá</h1>
   <p>Delta del Tigre · 4 cabañas completamente equipadas</p>
-  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1" class="btn-wsp">📲 Consultar por WhatsApp</a>
+  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1%0A%0Ahttps%3A%2F%2Fcabanas-caraguata.github.io%2Fmi-calendario%2F" class="btn-wsp">📲 Consultar por WhatsApp</a>
 </div>
 
-<!-- ÍNDICE -->
 <div class="indice">
   <h2>¿Qué querés saber?</h2>
   <div class="indice-grid">
     <a href="#casas" class="indice-link"><span class="ico">🏠</span> Las casas</a>
+    <a href="#ubicacion" class="indice-link"><span class="ico">📍</span> Ubicación</a>
     <a href="#llegar" class="indice-link"><span class="ico">🗺️</span> Cómo llegar</a>
     <a href="#horarios" class="indice-link"><span class="ico">🕐</span> Horarios</a>
     <a href="#llevar" class="indice-link"><span class="ico">🎒</span> Qué llevar</a>
@@ -285,8 +295,7 @@
     <a href="#almacen" class="indice-link"><span class="ico">🛒</span> Lancha almacén</a>
     <a href="#kayaks" class="indice-link"><span class="ico">🚣</span> Kayaks</a>
     <a href="#mascotas" class="indice-link"><span class="ico">🐾</span> Mascotas</a>
-    <a href="#wifi" class="indice-link"><span class="ico">📶</span> Wifi y cable</a>
-    <a href="#extras" class="indice-link"><span class="ico">✨</span> Lo que hay</a>
+    <a href="#wifi" class="indice-link"><span class="ico">📶</span> Wifi</a>
   </div>
 </div>
 
@@ -364,6 +373,17 @@
   </div>
 </div>
 
+<!-- UBICACIÓN -->
+<div class="seccion" id="ubicacion">
+  <div class="seccion-titulo">📍 Ubicación</div>
+  <div class="info-card">
+    <h4>Arroyo Caraguatá 128 · Delta Tigre</h4>
+    <p>A solo <strong>30 minutos en lancha colectiva</strong> desde la Estación Fluvial de Tigre.</p>
+    <p style="margin-top:8px;"><a href="https://maps.app.goo.gl/qt4rMrm8Z926W1Ee7" target="_blank">📍 Ver en Google Maps</a></p>
+  </div>
+  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
+</div>
+
 <!-- CÓMO LLEGAR -->
 <div class="seccion" id="llegar">
   <div class="seccion-titulo">🗺️ Cómo llegar</div>
@@ -371,8 +391,7 @@
   <div class="info-card">
     <h4>🚢 Lancha colectiva (opción más común)</h4>
     <p><strong>Estación fluvial Tigre</strong> — frente a la estación del tren</p>
-    <p>Líneas Delta · <a href="https://maps.app.goo.gl/MTXeFxTg4C2GZMPt9" target="_blank">📍 Ver en mapa</a></p>
-    <p>Tel: 47311236 / 47490537</p>
+    <p>Líneas Delta · Tel: 47311236 / 47490537</p>
     <p>Sacás boleto ida y vuelta en el momento. ¡Llegá con tiempo!</p>
     <p style="margin-top:8px;"><strong>Rampa 3</strong> — solo las que van por Caraguatá</p>
     <p>Bajás en <strong>Caraguatá 128</strong> y pedís que te avisen</p>
@@ -422,27 +441,43 @@
 <!-- QUÉ LLEVAR -->
 <div class="seccion" id="llevar">
   <div class="seccion-titulo">🎒 ¿Qué llevar?</div>
-  <div class="alerta">
-    <strong>⚠️ Importante</strong>
-    Hacete una lista y llevá todo. Allá no hay nada. Solo hay un remis que te lleva al almacén pero es muy caro.
-  </div>
-  <div class="info-card">
-    <h4>Imprescindible</h4>
-    <ul>
-      <li><strong>Sábanas y toallas</strong></li>
-      <li>Agua potable</li>
-      <li>Off / repelente</li>
-      <li>Velas, linterna o luz de emergencia</li>
-      <li>Artículos de limpieza</li>
-      <li>Artículos de higiene personal</li>
-      <li>Comida, carbón y encendedor</li>
+
+  <div class="llevar-destacado">
+    <h4>⚠️ MUY IMPORTANTE — No lo olvides</h4>
+    <ul style="list-style:none; padding:0;">
+      <li>🛏️ <strong>Sábanas y fundas</strong> (las casas NO las incluyen)</li>
+      <li>🧺 <strong>Toallas</strong> (las casas NO las incluyen)</li>
+      <li>💧 Agua potable</li>
     </ul>
   </div>
+
   <div class="info-card">
-    <h4>🛒 Lancha almacén "La Nélida"</h4>
-    <p>Si necesitás comprar algo, pasa la lancha almacén:</p>
-    <p><strong>WhatsApp:</strong> <a href="https://wa.me/541135644466">1135644466</a></p>
-    <p>Lunes, miércoles, viernes y sábados por la mañana (9:30 a 11hs)</p>
+    <h4>✅ Lista completa</h4>
+    <ul>
+      <li>Off / repelente para insectos</li>
+      <li>Velas, linterna o luz de emergencia (por las dudas)</li>
+      <li>Artículos de limpieza: detergente, esponja, papel higiénico, bolsas de residuos</li>
+      <li>Artículos de higiene personal</li>
+      <li>Comida</li>
+      <li>Carbón y encendedor</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h4>🏡 Las casas ya incluyen</h4>
+    <ul>
+      <li>Heladera con freezer</li>
+      <li>Cocina a gas y horno eléctrico</li>
+      <li>Pava eléctrica</li>
+      <li>Platos, vasos, cubiertos, ollas y sartenes</li>
+      <li>Parrilla privada</li>
+      <li>Frazadas, estufas y ventiladores</li>
+    </ul>
+  </div>
+
+  <div class="alerta">
+    <strong>💡 Tip</strong>
+    Si no querés viajar muy cargado, podés comprar carbón, agua y bebidas en la lancha almacén que pasa por el muelle.
   </div>
   <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
 </div>
@@ -471,7 +506,7 @@
   <div class="info-card">
     <h4>🔒 Antes de reservar</h4>
     <p>Controlá en Facebook, Instagram y Google desde cuándo publicamos, cantidad de amigos, etc. <strong>Hay mucha estafa y usan fotos truchas.</strong></p>
-    <p style="margin-top:8px;">📲 Reservas únicamente por WhatsApp al único teléfono de Rubén: <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1"><strong>11 5846 7707</strong></a></p>
+    <p style="margin-top:8px;">📲 Reservas únicamente por WhatsApp al único teléfono de Rubén: <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1%0A%0Ahttps%3A%2F%2Fcabanas-caraguata.github.io%2Fmi-calendario%2F"><strong>11 5846 7707</strong></a></p>
     <p style="margin-top:6px;font-size:0.85rem;">Si tenés dudas podés pedirme una videollamada 📱</p>
   </div>
   <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
@@ -482,16 +517,19 @@
   <div class="seccion-titulo">🛒 Lancha almacén</div>
   <div class="alerta">
     <strong>⚠️ No hay almacenes en la zona</strong>
-    Hacete una lista y llevá todo. Solo hay un remis que te lleva a comprar pero es muy caro.
+    Pasan todos los días excepto los domingos. Si no querés viajar muy cargado, podés comprar carbón, bidones de agua, bebidas y productos básicos directamente en el muelle.
   </div>
   <div class="info-card">
     <h4>🚢 La Nélida</h4>
-    <p>Lunes, miércoles, viernes y sábados por la mañana</p>
-    <p><a href="https://wa.me/541135644466">WhatsApp: 1135644466</a></p>
+    <p>📅 Lunes, miércoles, viernes y sábados</p>
+    <p>🕙 Entre las 10:00 y las 11:00 hs</p>
+    <p style="margin-top:6px;"><a href="https://wa.me/541135644466">📲 WhatsApp: 1135644466</a></p>
   </div>
   <div class="info-card">
     <h4>🚢 La Esperanza</h4>
-    <p>Martes, jueves y sábados por la tarde</p>
+    <p>📅 Martes, jueves y sábados</p>
+    <p>🕓 Entre las 16:00 y las 18:00 hs</p>
+    <p style="margin-top:6px;"><a href="tel:+541165098174">📞 +54 9 11 6509-8174</a></p>
   </div>
   <div class="info-card">
     <h4>🚗 Remis para ir a comprar</h4>
@@ -523,52 +561,35 @@
   </div>
   <div class="alerta">
     <strong>🚢 Para viajar en lancha colectiva</strong>
-    Los pasajeros deben ir en un canil o bolso. Nunca sueltas ya que no te van a dejar subir.
+    Las mascotas deben ir en un canil o bolso. Nunca sueltas ya que no te van a dejar subir.
   </div>
   <div class="info-card">
     <h4>🚤 Alternativa: lancha-taxi</h4>
-    <p>Podés ir en lancha-taxi, coordinando previamente con un remisero:</p>
+    <p>Podés ir en lancha-taxi coordinando previamente:</p>
     <p style="margin-top:6px;"><strong>Ricardo</strong> · <a href="tel:+541149806752">+54 9 11 4980-6752</a></p>
-    <p><strong>Casiel</strong> · <a href="tel:+541157024581">+54 9 11 5702-4581</a></p>
-    <p><strong>Franco</strong> · <a href="tel:+541168689348">+54 9 11 6868-9348</a></p>
+    <p style="margin-top:8px;"><strong>🚤 Lancha taxi desde Tigre</strong> · <a href="tel:+541147491896">+54 9 11 4749-1896</a></p>
   </div>
   <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
 </div>
 
 <!-- WIFI -->
 <div class="seccion" id="wifi">
-  <div class="seccion-titulo">📶 Wifi y cable</div>
+  <div class="seccion-titulo">📶 Wifi e internet</div>
   <div class="info-card">
     <h4>🛰️ Wifi Starlink</h4>
-    <p><strong>Red: Starlink · Sin clave</strong></p>
+    <p>Contamos con internet satelital <strong>Starlink</strong>, una de las conexiones más rápidas disponibles en el delta.</p>
+    <p style="margin-top:6px;">La clave del wifi te la damos al momento del check-in. 🔑</p>
   </div>
   <div class="info-card">
-    <h4>📺 Televisión por cable</h4>
-    <p>Si te interesa, avisame y lo cargo cuando llegás.</p>
-    <p style="margin-top:6px;"><strong>Valor:</strong> $5.000 por día · Mínimo $10.000</p>
-  </div>
-  <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
-</div>
-
-<!-- EXTRAS -->
-<div class="seccion" id="extras">
-  <div class="seccion-titulo">✨ Lo que hay en las cabañas</div>
-  <div class="features" style="gap:12px;">
-    <div class="feature-item"><span class="ico">🏖️</span> Playita</div>
-    <div class="feature-item"><span class="ico">🔥</span> Parrilla privada</div>
-    <div class="feature-item"><span class="ico">🌿</span> Parque natural</div>
-    <div class="feature-item"><span class="ico">🎣</span> Muelle de pesca</div>
-    <div class="feature-item"><span class="ico">🌳</span> Hamacas</div>
-    <div class="feature-item"><span class="ico">🚣</span> Kayaks</div>
-    <div class="feature-item"><span class="ico">📶</span> Wifi Starlink</div>
-    <div class="feature-item"><span class="ico">🐶</span> Pet friendly</div>
+    <h4>📺 ¿Y la televisión?</h4>
+    <p>No contamos con televisión por cable, pero gracias al Wifi Starlink podés disfrutar de <strong>YouTube, Netflix, Disney+</strong> o cualquier plataforma con tu propia cuenta, desde el celular o la smart TV de la cabaña.</p>
   </div>
   <a href="#inicio" class="volver-top">↑ Volver al inicio</a>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1" class="btn-wsp">📲 Reservar por WhatsApp</a>
+  <a href="https://wa.me/541158467707?text=Hola%20Rub%C3%A9n!%20Vi%20tu%20p%C3%A1gina%20de%20informaci%C3%B3n%20y%20quer%C3%ADa%20consultarte%20sobre%20las%20caba%C3%B1as%20%F0%9F%8F%A1%0A%0Ahttps%3A%2F%2Fcabanas-caraguata.github.io%2Fmi-calendario%2F" class="btn-wsp">📲 Reservar por WhatsApp</a>
   <p>Único teléfono: 11 5846 7707 · Rubén</p>
   <div class="redes">
     📸 @cabanascaraguata &nbsp;·&nbsp; 👍 Caraguatá Cabañas &nbsp;·&nbsp; 🎵 @cabanascaraguata
