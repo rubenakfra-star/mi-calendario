@@ -65,6 +65,11 @@
   .badge-ok { background:#d4ead7; color:#2d6e3a; }
   .badge-pendiente { background:#f0cdc8; color:#8b2a1a; }
   .btn-eliminar { background:none; border:none; color:#e03030; cursor:pointer; font-size:0.8rem; font-weight:700; }
+  .btn-editar { background:none; border:none; color:#4a7c59; cursor:pointer; font-size:0.8rem; font-weight:700; margin-right:4px; }
+  .fila-edicion td { background:#fffbe8; }
+  .fila-edicion input { border:1px solid #ccc; border-radius:4px; padding:0.2rem 0.4rem; font-size:0.75rem; width:100%; font-family:'Inter',sans-serif; }
+  .btn-guardar-edicion { background:#2a2218; color:white; border:none; border-radius:4px; padding:0.2rem 0.6rem; font-size:0.75rem; cursor:pointer; margin-right:4px; }
+  .btn-cancelar-edicion { background:none; border:1px solid #bbb; border-radius:4px; padding:0.2rem 0.6rem; font-size:0.75rem; cursor:pointer; }
   .guardado { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); background:#2a2218; color:white; padding:0.6rem 1.4rem; border-radius:20px; font-size:0.8rem; opacity:0; transition:opacity 0.3s; pointer-events:none; z-index:200; white-space:nowrap; }
   .guardado.visible { opacity:1; }
   footer { text-align:center; padding:1.5rem; font-size:0.75rem; color:#aaa; }
@@ -147,11 +152,6 @@
 
   function cambiarMesCabana(id,d){ meses[id]=new Date(meses[id].getFullYear(),meses[id].getMonth()+d,1); renderizarCabana(id); }
 
-  function mostrarFormReserva(cabId){
-    const f=document.getElementById('form-'+cabId);
-    if(f) f.style.display=f.style.display==='none'?'block':'none';
-  }
-
   function guardarReserva(cabId){
     const cab=CABANAS.find(c=>c.id===cabId);
     const sel=seleccion[cabId];
@@ -172,7 +172,6 @@
     guardarReservas();
     renderRegistro();
     mostrarToast('Reserva guardada en registro');
-    resetSeleccion(cabId);
   }
 
   function eliminarReserva(id){
@@ -181,20 +180,62 @@
     guardarReservas(); renderRegistro();
   }
 
+  function editarReserva(id){
+    const r=reservas.find(x=>x.id===id);
+    if(!r) return;
+    const fila=document.getElementById('fila-'+id);
+    if(!fila) return;
+    fila.className='fila-edicion';
+    fila.innerHTML=`
+      <td>${r.cabana}</td>
+      <td>${r.fecha_registro?r.fecha_registro.split("-").reverse().join("-"):"-"}</td>
+      <td>${r.entrada.split("-").reverse().join("-")}</td>
+      <td>${r.salida.split("-").reverse().join("-")}</td>
+      <td>${r.dias}</td>
+      <td>${formatPrecio(r.total)}</td>
+      <td><input id="edit-senia-${id}" type="number" value="${r.senia||0}"></td>
+      <td></td>
+      <td><input id="edit-tel-${id}" type="tel" value="${r.tel||''}"></td>
+      <td><input id="edit-notas-${id}" type="text" value="${r.notas||''}"></td>
+      <td>
+        <button class="btn-guardar-edicion" onclick="guardarEdicion(${id})">OK</button>
+        <button class="btn-cancelar-edicion" onclick="renderRegistro()">X</button>
+      </td>
+    `;
+  }
+
+  function guardarEdicion(id){
+    const r=reservas.find(x=>x.id===id);
+    if(!r) return;
+    const senia=parseFloat(document.getElementById('edit-senia-'+id)?.value)||0;
+    const tel=document.getElementById('edit-tel-'+id)?.value.trim()||'';
+    const notas=document.getElementById('edit-notas-'+id)?.value.trim()||'';
+    r.senia=senia;
+    r.saldo=r.total-senia;
+    r.tel=tel;
+    r.notas=notas;
+    guardarReservas();
+    mostrarToast('Reserva actualizada');
+    renderRegistro();
+  }
+
   function renderRegistro(){
     const body=document.getElementById('registro-body');
     if(!reservas.length){ body.innerHTML='<div class="registro-vacio">No hay reservas registradas</div>'; return; }
     let html='<table class="registro-tabla"><thead><tr><th>Cabana</th><th>F.Reserva</th><th>Entrada</th><th>Salida</th><th>Dias</th><th>Total</th><th>Seña</th><th>Saldo</th><th>Tel</th><th>Notas</th><th></th></tr></thead><tbody>';
     reservas.forEach(r=>{
       const saldoOk=r.saldo<=0;
-      html+=`<tr>
+      html+=`<tr id="fila-${r.id}">
         <td>${r.cabana}</td><td>${r.fecha_registro?r.fecha_registro.split("-").reverse().join("-"):"-"}</td><td>${r.entrada.split("-").reverse().join("-")}</td><td>${r.salida.split("-").reverse().join("-")}</td><td>${r.dias}</td>
         <td>${formatPrecio(r.total)}</td>
         <td>${formatPrecio(r.senia||0)}</td>
         <td><span class="badge-saldo ${saldoOk?'badge-ok':'badge-pendiente'}">${formatPrecio(r.saldo)}</span></td>
         <td>${r.tel?`<a href="https://wa.me/54${r.tel.replace(/\D/g,'')}" target="_blank">${r.tel}</a>`:'-'}</td>
         <td>${r.notas||'-'}</td>
-        <td><button class="btn-eliminar" onclick="eliminarReserva(${r.id})">X</button></td>
+        <td>
+          <button class="btn-editar" onclick="editarReserva(${r.id})">✏️</button>
+          <button class="btn-eliminar" onclick="eliminarReserva(${r.id})">X</button>
+        </td>
       </tr>`;
     });
     const totalG=reservas.reduce((s,r)=>s+r.total,0);
@@ -308,13 +349,16 @@
   function marcarOcupado(cabId){
     const sel=seleccion[cabId];
     if(!sel.entrada||!sel.salida) return;
+    const guardarEnCaja = confirm("Queres tambien guardar esta reserva en el registro de caja?");
+    if(guardarEnCaja){ guardarReserva(cabId); }
     let d=new Date(sel.entrada);
     while(d<=sel.salida){
       const k=clave(d);
       if(!(ocupadas[cabId]||[]).includes(k)){ ocupadas[cabId]=ocupadas[cabId]||[]; ocupadas[cabId].push(k); }
       d=new Date(d.getTime()+86400000);
     }
-    guardarOcupadas(); resetSeleccion(cabId);
+    guardarOcupadas();
+    resetSeleccion(cabId);
   }
 
   function resetSeleccion(cabId){
